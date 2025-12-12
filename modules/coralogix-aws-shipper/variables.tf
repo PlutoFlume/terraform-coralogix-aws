@@ -299,16 +299,12 @@ variable "runtime" {
 }
 
 variable "cpu_arch" {
-  description = "Lambda function CPU architecture"
+  description = "Lambda function CPU architecture. Only arm64 is supported as the private source bucket contains only arm64 artifacts."
   type        = string
   default     = "arm64"
   validation {
-    condition     = contains(["arm64", "x86_64"], var.cpu_arch)
-    error_message = "The CPU architecture must be one of these values: [arm64, x86_64]."
-  }
-  validation {
-    condition     = var.source_s3_bucket == "" || var.cpu_arch == "arm64"
-    error_message = "When using a private source_s3_bucket, only arm64 architecture is supported. Set cpu_arch to 'arm64' or leave source_s3_bucket empty to use Coralogix public repository."
+    condition     = var.cpu_arch == "arm64"
+    error_message = "Only arm64 architecture is supported. The private source bucket contains only arm64 artifacts."
   }
 }
 
@@ -341,13 +337,11 @@ variable "custom_s3_bucket" {
 variable "source_s3_bucket" {
   description = "The name of your private S3 bucket containing the Lambda deployment artifacts. This is the source bucket from which artifacts will be copied to the custom_s3_bucket."
   type        = string
-  default     = ""
 }
 
 variable "source_s3_region" {
   description = "The AWS region of your private source S3 bucket containing the Lambda deployment artifacts."
   type        = string
-  default     = ""
 }
 
 variable "govcloud_deployment" {

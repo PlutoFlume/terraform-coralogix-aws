@@ -21,7 +21,7 @@ resource "random_string" "lambda_role" {
 }
 
 resource "null_resource" "s3_bucket_copy" {
-  count = var.custom_s3_bucket != "" && var.source_s3_bucket != "" ? 1 : 0
+  count = var.custom_s3_bucket != "" ? 1 : 0
 
   provisioner "local-exec" {
     command = <<-EOF
