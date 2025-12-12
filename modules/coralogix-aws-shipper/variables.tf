@@ -334,6 +334,18 @@ variable "custom_s3_bucket" {
   default     = ""
 }
 
+variable "source_s3_bucket" {
+  description = "The name of your private S3 bucket containing the Lambda deployment artifacts. This is the source bucket from which artifacts will be copied to the custom_s3_bucket."
+  type        = string
+  default     = "concourse-coralogix-lambda-artifacts"
+}
+
+variable "source_s3_region" {
+  description = "The AWS region of your private source S3 bucket containing the Lambda deployment artifacts."
+  type        = string
+  default     = "eu-west-1"
+}
+
 variable "govcloud_deployment" {
   description = "Enable if you deploy the integration in govcloud"
   type        = bool
