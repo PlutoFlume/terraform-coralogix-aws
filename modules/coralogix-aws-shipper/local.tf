@@ -57,5 +57,5 @@ locals {
   is_sqs_integration = var.sqs_name != null && (var.integration_type == "S3" || var.integration_type == "CloudTrail" || var.integration_type == "Sqs") ? true : false
 
   arn_prefix      = "arn:${data.aws_partition.current.partition}"
-  s3_bucket_names = var.s3_bucket_name != null ? toset(split(",", var.s3_bucket_name)) : toset([])
+  s3_bucket_names = try(var.s3_bucket_name, null) != null && can(regex(".", var.s3_bucket_name)) ? toset(split(",", var.s3_bucket_name)) : toset([])
 }
