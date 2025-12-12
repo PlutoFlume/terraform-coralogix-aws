@@ -299,12 +299,12 @@ variable "runtime" {
 }
 
 variable "cpu_arch" {
-  description = "Lambda function CPU architecture. Only arm64 is supported as the private source bucket contains only arm64 artifacts."
+  description = "Lambda function CPU architecture"
   type        = string
   default     = "arm64"
   validation {
-    condition     = var.cpu_arch == "arm64"
-    error_message = "Only arm64 architecture is supported. The private source bucket contains only arm64 artifacts."
+    condition     = contains(["arm64", "x86_64"], var.cpu_arch)
+    error_message = "The CPU architecture must be one of these values: [arm64, x86_64]."
   }
 }
 

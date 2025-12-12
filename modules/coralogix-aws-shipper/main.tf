@@ -25,7 +25,12 @@ resource "null_resource" "s3_bucket_copy" {
 
   provisioner "local-exec" {
     command = <<-EOF
-      aws s3 cp s3://${var.source_s3_bucket}/coralogix-aws-shipper.zip s3://${var.custom_s3_bucket}/coralogix-aws-shipper.zip --region ${var.source_s3_region}
+      if [[ "${var.cpu_arch}" == "x86_64" ]]; then
+        file_name="coralogix-aws-shipper-x86-64.zip"
+      else
+        file_name="coralogix-aws-shipper.zip"
+      fi
+      aws s3 cp s3://${var.source_s3_bucket}/$file_name s3://${var.custom_s3_bucket}/$file_name --region ${var.source_s3_region}
     EOF
   }
 
@@ -33,6 +38,7 @@ resource "null_resource" "s3_bucket_copy" {
     source_bucket      = var.source_s3_bucket
     destination_bucket = var.custom_s3_bucket
     source_region      = var.source_s3_region
+    cpu_arch           = var.cpu_arch
   }
 }
 
