@@ -32,7 +32,7 @@ locals {
     AP3       = "ap3.coralogix.com"
   }
 
-  coralogix_url_seffix = "/api/v1/logs"
+  coralogix_url_seffix = "/logs/v1/bulk"
 
   tags = {
     Provider = "Coralogix"
